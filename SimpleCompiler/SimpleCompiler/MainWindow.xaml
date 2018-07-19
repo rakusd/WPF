@@ -1,0 +1,224 @@
+﻿<Window x:Class="VisualStudent.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VisualStudent"
+        mc:Ignorable="d"
+        Title="Visual Student" Height="600" Width="800" MinHeight="500" MinWidth="500" WindowStartupLocation="CenterScreen">
+    <Window.CommandBindings>
+        <CommandBinding Command="local:App.NewFile_Command" Executed="NewFile_Executed"
+                        CanExecute="AllCommands_CanExecute"/>
+        <CommandBinding Command="local:App.SaveFile_Command" Executed="SaveFile_Executed"
+                        CanExecute="AllCommands_CanExecute"/>
+        <CommandBinding Command="local:App.OpenFile_Command" Executed="OpenFile_Executed"
+                        CanExecute="AllCommands_CanExecute"/>
+        <CommandBinding Command="local:App.Execute_Command" Executed="Execute_Executed"
+                        CanExecute="AllCommands_CanExecute"/>
+    </Window.CommandBindings>
+    
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Ctrl" Key="N" Command="local:App.NewFile_Command"/>
+        <KeyBinding Modifiers="Ctrl" Key="S" Command="local:App.SaveFile_Command"/>
+        <KeyBinding Modifiers="Ctrl" Key="O" Command="local:App.OpenFile_Command"/>
+        <KeyBinding Key="F5" Command="local:App.Execute_Command"/>
+    </Window.InputBindings>
+    
+    <Window.Resources>
+        <local:OutputConverter x:Key="OutputConverter"/>
+        <Style TargetType="TabItem" x:Key="TabStyle">
+            <Setter Property="LayoutTransform">
+                <Setter.Value>
+                    <ScaleTransform/>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Button.MouseEnter">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard
+                                >
+                                <DoubleAnimation Storyboard.TargetProperty="LayoutTransform.ScaleX"
+                                                 To="1.2" Duration="0:0:0.3"></DoubleAnimation>
+                            </Storyboard>
+
+                        </BeginStoryboard>
+
+
+                    </EventTrigger.Actions>
+
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Button.MouseLeave">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard
+                                >
+                                <DoubleAnimation Storyboard.TargetProperty="LayoutTransform.ScaleX"
+                                                 Duration="0:0:0.3"></DoubleAnimation>
+                            </Storyboard>
+
+                        </BeginStoryboard>
+
+
+                    </EventTrigger.Actions>
+
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type TabItem}" x:Key="FileTabStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid>
+                            <Border 
+            Name="Border"
+            Margin="0,0,-4,0" 
+            Background="LightGray"
+            BorderBrush="Black" 
+            BorderThickness="1,1,1,1" >
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="20"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ContentPresenter x:Name="ContentSite"
+              VerticalAlignment="Center"
+              HorizontalAlignment="Center"
+              ContentSource="Header"
+              Margin="12,2,12,2"
+              RecognizesAccessKey="True"/>
+                                    <Button Grid.Column="1" Width="15" Height="15" Margin="0,0,5,0" Click="Close_Click">
+                                        <TextBlock VerticalAlignment="Center" FontWeight="Bold">
+                                            X
+                                        </TextBlock>
+                                    </Button>
+                                </Grid>
+                                
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Panel.ZIndex" Value="100" />
+                                <Setter TargetName="Border" Property="Background" Value="White" />
+                                <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
+                            </Trigger>
+                            
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="ErorListTemplate">
+            <Grid Height="30" Background="#FFA24B76">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock FontWeight="Bold" Text="{Binding ErrorNumber}"/>
+                <TextBlock Grid.Column="2" Text="{Binding ErrorDescription}"/>
+                <TextBlock FontWeight="Bold" Grid.Column="4" Text="{Binding ErrorSource}"/>
+            </Grid>
+        </DataTemplate>
+
+        <Style x:Key="ErrorsListStyle" TargetType="{ x:Type ListBoxItem}">
+            <Setter Property="Background" Value="#FFA24B76"/>
+            <Setter Property="ContentTemplate" Value="{StaticResource ErorListTemplate}"/>
+        </Style>
+
+        <Style x:Key="PluginMenuStyle" TargetType="MenuItem">
+            <Setter Property="Header" Value="{Binding Path=PluginInfo.Name}"/>
+            <Setter Property="IsCheckable" Value="True" />
+            <Setter Property="IsChecked" Value="{Binding Path=Enabled,Mode=TwoWay}"/>
+            <EventSetter Event="Checked" Handler="MenuItem_Checked"/>
+            <EventSetter Event="Unchecked" Handler="MenuItem_Checked"/>
+        </Style>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <Menu>
+            <MenuItem Header="File">
+                <MenuItem InputGestureText="Ctrl+N" Header="New" Click="NewFile_Click"/>
+                <MenuItem InputGestureText="Ctrl+S" Header="Save" Click="Save_Click"/>
+                <MenuItem Header="Save as" Click="SaveAs_Click"/>
+                <MenuItem InputGestureText="Ctrl+O" Header="Open file" Click="OpenFile_Click"/>
+                <MenuItem Header="Open project" Click="OpenProject_Click"/>
+                <Separator/>
+                <MenuItem Header="Exit" Click="Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="Plugins" ItemsSource="{Binding PluginsCollection}" ItemContainerStyle="{StaticResource PluginMenuStyle}"/>
+            <MenuItem Header="About" Click="About_Click"/>
+        </Menu>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <ComboBox Name="OptionComboBox" Width="120" Height="26" VerticalAlignment="Center"
+                      Margin="10,0,30,0" SelectedIndex="0" >
+                <ComboBoxItem>Build</ComboBoxItem>
+                <ComboBoxItem>Build + Run</ComboBoxItem>
+            </ComboBox>
+            <Button Width="80" Height="26" VerticalAlignment="Center" Click="Execute_Click">Execute</Button>
+        </StackPanel>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="15"/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="150"/>
+                </Grid.RowDefinitions>
+
+                <TabControl Name="FileTab" Margin="10,0,0,10">
+                    <TabControl.Resources>
+                        <Style TargetType="TabItem" BasedOn="{StaticResource FileTabStyle}" />
+                    </TabControl.Resources>
+                </TabControl>
+
+                <TabControl Margin="10,0,0,10" Grid.Row="1" TabStripPlacement="Bottom">
+                    
+                    <TabItem Header="Output" Foreground="Blue" Style="{StaticResource TabStyle}">
+                        <local:BindableRichTextBox x:Name="OutputTextBox" BorderThickness="0"
+                                     IsReadOnly="True" Cursor="Arrow"  
+                                     Document="{Binding Output,Converter={StaticResource OutputConverter}}"/>
+                    </TabItem>
+                    <TabItem Header="Error list" Foreground="Red" Style="{StaticResource TabStyle}">
+                        <ListBox 
+                                Name="ErrorListBox" ItemsSource="{Binding ErrorsCollection}"
+                                 ItemContainerStyle="{StaticResource ErrorsListStyle}" HorizontalContentAlignment="Stretch"/>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="DarkGray" />
+            
+            <TreeView Grid.Column="2" Background="#FFDBEBFF"
+                      Name="ProjectTree" Margin="0,0,10,10"
+                      MouseDoubleClick="ProjectTree_MouseDoubleClick" ItemsSource="{Binding Folders.Elems}">
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Elems}" DataType="{x:Type local:FolderItem}">
+                        <TextBlock Text="{Binding UsableName}" Tag="{Binding Info.FullName}"/>
+                    </HierarchicalDataTemplate>
+                    <HierarchicalDataTemplate DataType="{x:Type local:FileItem}">
+                        <TextBlock Text="{Binding Info.Name}"/>
+                    </HierarchicalDataTemplate>
+                </TreeView.Resources>
+            </TreeView>
+            
+        </Grid>
+    </Grid>
+</Window>
