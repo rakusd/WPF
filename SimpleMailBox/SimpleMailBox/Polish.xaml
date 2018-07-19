@@ -1,0 +1,26 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:WpfApp1"
+                    xmlns:my="clr-namespace:System;assembly=mscorlib">
+    <my:String x:Key="StrFrom" >Od:</my:String>
+    <my:String x:Key="StrTo" >To:</my:String>
+    <my:String x:Key="StrReceived">Odebrane</my:String>
+    <my:String x:Key="StrSent" >Wysłane</my:String>
+    <my:String x:Key="StrLogin">Zaloguj</my:String>
+    <my:String x:Key="StrLogout">Wyloguj</my:String>
+    <my:String x:Key="StrNewMail" >Nowy mail</my:String>
+    <my:String x:Key="StrEnglish" >Angielski</my:String>
+    <my:String x:Key="StrPolish" >Polski</my:String>
+    <my:String x:Key="StrTitle" >Tytuł:</my:String>
+    <my:String x:Key="StrMessage" >Wiadomość:</my:String>
+    <my:String x:Key="StrCancel" >Anuluj</my:String>
+    <my:String x:Key="StrOK" >OK</my:String>
+    <my:String x:Key="StrSend" >Wyślij</my:String>
+    <my:String x:Key="StrUsername">Użytkownik:</my:String>
+    <my:String x:Key="StrPassword" >Hasło:</my:String>
+    <my:String x:Key="StrManager">Mejl Menedżer</my:String>
+    <my:String x:Key="LoginFail">Użytkownik lub hasło nieprawidłowe</my:String>
+    <my:String x:Key="StrEmpty">To pole nie może być puste</my:String>
+    <my:String x:Key="StrIncorrect">Zły adres e-mail</my:String>
+    <my:String x:Key="StrTooShort">Wiadomość musi zawierać conajmniej 10 znaków</my:String>
+</ResourceDictionary>

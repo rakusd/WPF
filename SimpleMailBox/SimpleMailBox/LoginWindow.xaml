@@ -1,0 +1,49 @@
+﻿<Window x:Class="WpfApp1.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="LoginWindow" Height="200" Width="400"
+        WindowStartupLocation="CenterOwner" WindowStyle="None" ShowInTaskbar="False"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <ResourceDictionary x:Name="LanguageDictionary">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="English.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="ButtonEnabler" TargetType="{x:Type Button}">
+                <!-- Nie da sie zbindowac passwordboxa-->
+                <!--<Style.Triggers>
+                    <DataTrigger Binding="{Binding Text.Length, ElementName=Username, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                        <Setter Property="IsEnabled" Value="False"/>
+                    </DataTrigger>
+                </Style.Triggers>-->
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Label FontSize="25" Foreground="DarkGreen" Content="{DynamicResource StrLogin}"></Label>
+        <TextBox Name="Username" Grid.Row="1" Height="25" Width="240" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="100,20,0,0"
+                 TextChanged="txtChanged"/>
+        <Label Grid.Row="1" Height="30" Width="85" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,15,0,0" Content="{DynamicResource StrUsername}"></Label>
+
+        <PasswordBox Name="Password" Grid.Row="1" Height="25" Width="240" VerticalAlignment="Top"
+                     HorizontalAlignment="Left" Margin="100,60,0,0"
+                     PasswordBox.PasswordChanged="txtChanged"/>
+        <Label Grid.Row="1" Height="30" Width="85" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,55,0,0" Content="{DynamicResource StrPassword}"/>
+
+        <Button Grid.Row="2" Height="20" Width="80" Margin="-100,0,0,0" Foreground="DarkGreen" Click="Button_Click" Content="{DynamicResource StrCancel}"/>
+        <Button Name="OKButton" Grid.Row="2" Height="20" Width="80" Margin="100,0,0,0" Foreground="DarkGreen"
+                Click="Button_Click_1" Content="{DynamicResource StrOK}"
+                Style="{StaticResource ButtonEnabler}" IsEnabled="False"/>
+    </Grid>
+</Window>
