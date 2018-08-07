@@ -92,6 +92,7 @@ namespace WpfApp1
                 wnd.ShowDialog();
                 messages = current?.MessagesReceived;
                 SentMessages = current?.MessagesSent;
+                OnPropertyChanged(nameof(SentMessages));
                 
 
                 this.DataContext = this;
