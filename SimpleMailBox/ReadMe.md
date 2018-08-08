@@ -9,5 +9,5 @@ Predefined users: Username1:wpf Password1:iseasy, Username2:mini Password2:pw
     - To: field cannot be empty and needs to contain at least 1 character then "@" character, then at least 1 character, then "." character and at least 2 characters.
     - Title: field cannot be empty
     - Message: Needs to be at least 10 characters long
-    -After passing those rules send button becomes enabled and you can view this message in Sent tab.
-    -In the top there is textbox, in which you can type strings separated by spaces. After something is typed in there only emails containing at least one of the words in either title, sender or date are displayed in the tab.
+   -After passing those rules send button becomes enabled and you can view this message in Sent tab.
+   -In the top there is textbox, in which you can type strings separated by spaces. After something is typed in there only emails containing at least one of the words in either title, sender or date are displayed in the tab.
